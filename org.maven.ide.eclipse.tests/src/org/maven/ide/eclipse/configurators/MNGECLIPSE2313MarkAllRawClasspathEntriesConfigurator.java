@@ -26,16 +26,6 @@ public class MNGECLIPSE2313MarkAllRawClasspathEntriesConfigurator extends Abstra
   public MNGECLIPSE2313MarkAllRawClasspathEntriesConfigurator() {
   }
 
-  public Set<Artifact> resolveAdditionalArtifacts(IMavenProjectFacade facade, IProgressMonitor monitor)
-      throws CoreException {
-    return null;
-  }
-
-  public ArtifactFilter getClasspathFilter(IMavenProjectFacade facade, IClasspathDescriptor classpath,
-      IProgressMonitor monitor) throws CoreException {
-    return null;
-  }
-
   public void configure(ProjectConfigurationRequest request, IProgressMonitor monitor) throws CoreException {
   }
 

@@ -29,6 +29,7 @@ import org.maven.ide.eclipse.jdt.BuildPathManager;
 import org.maven.ide.eclipse.jdt.IClasspathDescriptor;
 import org.maven.ide.eclipse.jdt.IClasspathEntryDescriptor;
 import org.maven.ide.eclipse.jdt.IClasspathManagerDelegate;
+import org.maven.ide.eclipse.jdt.IExtendedJavaProjectConfigurator;
 import org.maven.ide.eclipse.jdt.IJavaProjectConfigurator;
 import org.maven.ide.eclipse.project.IMavenProjectFacade;
 import org.maven.ide.eclipse.project.IProjectConfigurationManager;
@@ -57,9 +58,12 @@ public class DefaultClasspathManagerDelegate implements IClasspathManagerDelegat
 
     final List<ArtifactFilter> classpathFilters = new ArrayList<ArtifactFilter>();
     for (IJavaProjectConfigurator configurator : getJavaProjectConfigurators(projectFacade, monitor)) {
-      ArtifactFilter classpathFilter = (configurator == null ? null : configurator.getClasspathFilter(projectFacade, classpath, monitor));
-      if(classpathFilter != null) {
-        classpathFilters.add(classpathFilter);
+      if(configurator != null && configurator instanceof IExtendedJavaProjectConfigurator)
+      {
+        ArtifactFilter classpathFilter = ((IExtendedJavaProjectConfigurator)configurator).getClasspathFilter(projectFacade, classpath, monitor);
+        if(classpathFilter != null) {
+          classpathFilters.add(classpathFilter);
+        }
       }
     }
 
@@ -114,9 +118,11 @@ public class DefaultClasspathManagerDelegate implements IClasspathManagerDelegat
     Set<Artifact> artifacts = new LinkedHashSet<Artifact>(mavenProject.getArtifacts());
 
     for(IJavaProjectConfigurator configurator : getJavaProjectConfigurators(facade, monitor)) {
-      Set<Artifact> additionalArtifacts = configurator.resolveAdditionalArtifacts(facade, monitor);
-      if(additionalArtifacts != null) {
-        artifacts.addAll(additionalArtifacts);
+      if(configurator instanceof IExtendedJavaProjectConfigurator) {
+        Set<Artifact> additionalArtifacts = ((IExtendedJavaProjectConfigurator)configurator).resolveAdditionalArtifacts(facade, monitor);
+        if(additionalArtifacts != null) {
+          artifacts.addAll(additionalArtifacts);
+        }
       }
     }
 
