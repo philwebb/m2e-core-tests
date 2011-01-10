@@ -61,6 +61,10 @@ public class ClasspathEntryDescriptor implements IClasspathEntryDescriptor {
 
   private String scope;
 
+  private String type;
+  
+  private String classifier;
+
   private boolean optionalDependency;
 
   public ClasspathEntryDescriptor(int entryKind, IPath path) {
@@ -139,6 +143,14 @@ public class ClasspathEntryDescriptor implements IClasspathEntryDescriptor {
     return scope;
   }
 
+  public String getType() {
+    return type;
+  }
+  
+  public String getClassifier() {
+    return classifier;
+  }
+  
   /**
    * @return true if this entry corresponds to an optional maven dependency, false otherwise
    */
@@ -233,6 +245,14 @@ public class ClasspathEntryDescriptor implements IClasspathEntryDescriptor {
 
   public void setScope(String scope) {
     this.scope = scope;
+  }
+  
+  public void setType(String type) {
+    this.type = type;
+  }
+  
+  public void setClassifier(String classifier) {
+    this.classifier = classifier;
   }
 
   public void setOptionalDependency(boolean optional) {

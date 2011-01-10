@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
@@ -32,6 +33,8 @@ import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.launching.environments.IExecutionEnvironment;
 import org.eclipse.jdt.launching.environments.IExecutionEnvironmentsManager;
 
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.resolver.filter.ArtifactFilter;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
@@ -79,6 +82,16 @@ public abstract class AbstractJavaProjectConfigurator extends AbstractProjectCon
 
   protected static final String DEFAULT_COMPILER_LEVEL = "1.4";
 
+  public ArtifactFilter getClasspathFilter(IMavenProjectFacade facade, IClasspathDescriptor classpath,
+      IProgressMonitor monitor) throws CoreException {
+    return null;
+  }
+
+  public Set<Artifact> resolveAdditionalArtifacts(IMavenProjectFacade facade, 
+      IProgressMonitor monitor) throws CoreException {
+      return null;
+  }
+  
   public void configure(ProjectConfigurationRequest request, IProgressMonitor monitor) throws CoreException {
     IProject project = request.getProject();
 

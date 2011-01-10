@@ -139,7 +139,7 @@ public class BuildPathManager implements IMavenProjectChangedListener, IResource
   public static final ArtifactFilter SCOPE_FILTER_RUNTIME = new ScopeArtifactFilter(Artifact.SCOPE_RUNTIME);
 
   public static final ArtifactFilter SCOPE_FILTER_TEST = new ScopeArtifactFilter(Artifact.SCOPE_TEST);
-
+  
   final MavenConsole console;
 
   final MavenProjectManager projectManager;

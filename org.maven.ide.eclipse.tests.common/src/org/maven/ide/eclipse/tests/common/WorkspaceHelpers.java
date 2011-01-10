@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.internal.resources.ResourceException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -38,7 +39,7 @@ public class WorkspaceHelpers {
 
   public static void cleanWorkspace() throws InterruptedException, CoreException {
     Exception cause = null;
-    for(int i = 0; i < 10; i++ ) {
+    for(int i = 0; i < 2; i++ ) {
       try {
         doCleanWorkspace();
       } catch(InterruptedException e) {
@@ -47,7 +48,7 @@ public class WorkspaceHelpers {
         throw e;
       } catch(Exception e) {
         cause = e;
-        Thread.sleep(6 * 1000);
+        Thread.sleep(10 * 1000);
         continue;
       }
 
@@ -67,7 +68,10 @@ public class WorkspaceHelpers {
       public void run(IProgressMonitor monitor) throws CoreException {
         IProject[] projects = workspace.getRoot().getProjects();
         for(int i = 0; i < projects.length; i++ ) {
-          projects[i].delete(true, true, monitor);
+          try {
+            projects[i].delete(true, true, monitor);
+          } catch(ResourceException e) {
+          }
         }
       }
     }, new NullProgressMonitor());
@@ -92,9 +96,9 @@ public class WorkspaceHelpers {
 
   public static String toString(IMarker[] markers) {
     if (markers != null) {
-      return toString(Arrays.asList(markers));  
+      return toString(Arrays.asList(markers));
     }
-    return "";  
+    return "";
   }
 
   public static String toString(List<IMarker> markers) {
@@ -102,7 +106,7 @@ public class WorkspaceHelpers {
     StringBuilder sb = new StringBuilder();
     if (markers != null) {
       for(IMarker marker : markers) {
-        try { 
+        try {
           sb.append(sep).append(marker.getType()+":"+marker.getAttribute(IMarker.MESSAGE));
         } catch(CoreException ex) {
           // ignore

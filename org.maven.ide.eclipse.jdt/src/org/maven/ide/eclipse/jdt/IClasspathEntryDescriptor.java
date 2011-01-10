@@ -84,6 +84,14 @@ public interface IClasspathEntryDescriptor {
   public String getScope();
 
   public void setScope(String scope);
+  
+  public String getType();
+  
+  public void setType(String type);
+  
+  public String getClassifier();
+  
+  public void setClassifier(String classifier);
 
   //
 

@@ -127,6 +127,8 @@ public class ClasspathDescriptor implements IClasspathDescriptor {
     ClasspathEntryDescriptor entry = addProjectEntry(projectFacade.getFullPath());
     entry.setArtifactKey(new ArtifactKey(a.getGroupId(), a.getArtifactId(), a.getBaseVersion(), a.getClassifier()));
     entry.setScope(a.getScope());
+    entry.setType(a.getType());
+    entry.setClassifier(a.getClassifier());
     entry.setOptionalDependency(a.isOptional());
     return entry;
   }

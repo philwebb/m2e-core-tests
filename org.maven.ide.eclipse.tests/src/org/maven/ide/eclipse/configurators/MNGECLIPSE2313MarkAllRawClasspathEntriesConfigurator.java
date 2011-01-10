@@ -1,6 +1,10 @@
 
 package org.maven.ide.eclipse.configurators;
 
+import java.util.Set;
+
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.resolver.filter.ArtifactFilter;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IClasspathAttribute;
@@ -20,6 +24,16 @@ public class MNGECLIPSE2313MarkAllRawClasspathEntriesConfigurator extends Abstra
       MNGECLIPSE2313MarkAllRawClasspathEntriesConfigurator.class.getName(), "bar");
 
   public MNGECLIPSE2313MarkAllRawClasspathEntriesConfigurator() {
+  }
+
+  public Set<Artifact> resolveAdditionalArtifacts(IMavenProjectFacade facade, IProgressMonitor monitor)
+      throws CoreException {
+    return null;
+  }
+
+  public ArtifactFilter getClasspathFilter(IMavenProjectFacade facade, IClasspathDescriptor classpath,
+      IProgressMonitor monitor) throws CoreException {
+    return null;
   }
 
   public void configure(ProjectConfigurationRequest request, IProgressMonitor monitor) throws CoreException {
