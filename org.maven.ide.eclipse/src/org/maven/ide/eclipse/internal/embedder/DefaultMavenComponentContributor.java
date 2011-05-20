@@ -13,6 +13,8 @@ import org.apache.maven.plugin.internal.PluginDependenciesResolver;
 import org.apache.maven.project.artifact.MavenMetadataCache;
 
 import org.sonatype.aether.impl.LocalRepositoryMaintainer;
+import org.sonatype.aether.impl.internal.NoTimestampsEnhancedLocalRepositoryManagerFactory;
+import org.sonatype.aether.spi.localrepo.LocalRepositoryManagerFactory;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
 import org.maven.ide.eclipse.internal.project.EclipseMavenMetadataCache;
@@ -30,6 +32,7 @@ public class DefaultMavenComponentContributor implements IMavenComponentContribu
     binder.bind(ClassRealmManagerDelegate.class, EclipseClassRealmManagerDelegate.class, EclipseClassRealmManagerDelegate.ROLE_HINT);
     binder.bind(LocalRepositoryMaintainer.class, EclipseLocalRepositoryMaintainer.class, EclipseLocalRepositoryMaintainer.ROLE_HINT);
     binder.bind(ContextRepositorySystemSession.class, ContextRepositorySystemSessionImpl.class, null);
+    binder.bind(LocalRepositoryManagerFactory.class, NoTimestampsEnhancedLocalRepositoryManagerFactory.class, "enhanced");
   }
 
 }
