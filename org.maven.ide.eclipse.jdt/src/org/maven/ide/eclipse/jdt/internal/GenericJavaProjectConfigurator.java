@@ -22,9 +22,15 @@ import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionResult;
 import org.apache.maven.project.MavenProject;
 
+import org.maven.ide.eclipse.MavenPlugin;
 import org.maven.ide.eclipse.core.MavenLogger;
 import org.maven.ide.eclipse.jdt.IClasspathDescriptor;
+import org.maven.ide.eclipse.jdt.IJavaProjectSourceConfigurator;
+import org.maven.ide.eclipse.project.IMavenProjectFacade;
+import org.maven.ide.eclipse.project.IProjectConfigurationManager;
 import org.maven.ide.eclipse.project.ResolverConfiguration;
+import org.maven.ide.eclipse.project.configurator.AbstractProjectConfigurator;
+import org.maven.ide.eclipse.project.configurator.ILifecycleMapping;
 import org.maven.ide.eclipse.project.configurator.ProjectConfigurationRequest;
 
 
@@ -82,6 +88,22 @@ public class GenericJavaProjectConfigurator extends AbstractJavaProjectConfigura
     }
 
     return mavenProjects.get(0);
+  }
+
+  /* (non-Javadoc)
+   * @see org.maven.ide.eclipse.jdt.internal.AbstractJavaProjectConfigurator#addProjectSourceFolders(org.maven.ide.eclipse.jdt.IClasspathDescriptor, org.maven.ide.eclipse.project.configurator.ProjectConfigurationRequest, org.apache.maven.project.MavenProject, org.eclipse.core.runtime.IProgressMonitor)
+   */
+  protected void addProjectSourceFolders(IClasspathDescriptor classpath, ProjectConfigurationRequest request,
+      MavenProject mavenProject, IProgressMonitor monitor) throws CoreException {
+    super.addProjectSourceFolders(classpath, request, mavenProject, monitor);
+    IMavenProjectFacade facade = request.getMavenProjectFacade();
+    IProjectConfigurationManager configurationManager = MavenPlugin.getDefault().getProjectConfigurationManager();
+    ILifecycleMapping lifecycleMapping = configurationManager.getLifecycleMapping(facade, monitor);
+    for(AbstractProjectConfigurator configurator : lifecycleMapping.getProjectConfigurators(facade, monitor)) {
+      if(configurator instanceof IJavaProjectSourceConfigurator) {
+        ((IJavaProjectSourceConfigurator) configurator).addProjectSourceFolders(request, classpath, monitor);
+      }
+    }
   }
 
   @Override
